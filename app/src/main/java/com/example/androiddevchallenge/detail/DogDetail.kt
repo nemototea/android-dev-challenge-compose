@@ -7,13 +7,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Female
+import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
@@ -21,6 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.sp
+import com.example.androiddevchallenge.data.Dog
+import com.example.androiddevchallenge.data.Gender
 import com.example.androiddevchallenge.main.MainActivityViewModel
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.Neutral8
@@ -38,6 +45,7 @@ fun DogDetail(
         Header()
         RoundedImage(dog.image)
         Up(upPress)
+        Body(dog)
     }
 }
 
@@ -91,5 +99,39 @@ private fun RoundedImage(
                 .size(240.dp)
                 .clip(CircleShape)
         )
+    }
+}
+
+@Composable
+private fun Body(dog: Dog) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Spacer(modifier = Modifier.size(360.dp))
+        Row(
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = dog.name,
+                color = Color.Black,
+                fontSize = 36.sp
+            )
+            Spacer(modifier = Modifier.size(24.dp))
+            Text(
+                text = dog.age.toString() + " y.o.",
+                color = Color.Black,
+                fontSize = 36.sp
+            )
+            Spacer(modifier = Modifier.size(24.dp))
+            Icon(
+                imageVector = when(dog.gender) {
+                    Gender.MALE -> Icons.Filled.Male
+                    Gender.FEMALE -> Icons.Filled.Female
+                },
+                contentDescription = null,
+                modifier = Modifier.size(40.dp),
+            )
+        }
     }
 }
