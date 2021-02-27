@@ -20,19 +20,29 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Male
+import androidx.compose.material.icons.filled.Female
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.data.Gender
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -66,13 +76,61 @@ fun NavGraph(viewModel: MainActivityViewModel) {
 @Composable
 fun MainScreen(viewModel: MainActivityViewModel, navController: NavHostController) {
     Surface(color = MaterialTheme.colors.background) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        LazyColumn(
+            Modifier.background(Color.White)
         ) {
-            Card {
-                Text(text = "Ready... Set... GO!")
-                Text(text = "Ready... Set... GO!")
-                Text(text = "Ready... Set... GO!")
+            items(viewModel.dogs) { dog ->
+                Card(
+                    elevation = 4.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                        .padding(16.dp)
+                ) {
+                    Column(
+                        Modifier.clickable {
+                            // FIXME:ナビゲーション処理を書くぞい！
+                        }
+                    ) {
+                        Image(
+                            painter = painterResource(id = dog.image),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(160.dp)
+                                .fillMaxWidth(),
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop
+                        )
+                        Row(
+                            modifier = Modifier
+                                .height(80.dp)
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        ) {
+                            Text(
+                                text = dog.name,
+                                color = Color.Black,
+                                fontSize = 24.sp
+                            )
+                            Spacer(modifier = Modifier.size(24.dp))
+                            Text(
+                                text = dog.age.toString() + " y.o.",
+                                color = Color.Black,
+                                fontSize = 24.sp
+                            )
+                            Spacer(modifier = Modifier.size(24.dp))
+                            Icon(
+                                imageVector = when(dog.gender) {
+                                    Gender.MALE -> Icons.Filled.Male
+                                    Gender.FEMALE -> Icons.Filled.Female
+                                },
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
+
+                    }
+                }
             }
         }
     }
