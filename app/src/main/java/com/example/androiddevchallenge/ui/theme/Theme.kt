@@ -65,8 +65,8 @@ fun MyTheme(
 
 object MyTheme {
     val colors: MyColors
-    @Composable
-    get() = LocalMyColors.current
+        @Composable
+        get() = LocalMyColors.current
 }
 
 /**
