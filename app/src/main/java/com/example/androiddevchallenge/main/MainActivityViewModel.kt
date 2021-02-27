@@ -4,7 +4,18 @@ import androidx.lifecycle.ViewModel
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.data.Dog
 import com.example.androiddevchallenge.data.Gender
-import com.example.androiddevchallenge.data.Personality.*
+import com.example.androiddevchallenge.data.Personality.AFFECTIONATE
+import com.example.androiddevchallenge.data.Personality.ANXIOUS
+import com.example.androiddevchallenge.data.Personality.CURIOUS
+import com.example.androiddevchallenge.data.Personality.FEARLESS
+import com.example.androiddevchallenge.data.Personality.FRIENDLY
+import com.example.androiddevchallenge.data.Personality.GENTLE
+import com.example.androiddevchallenge.data.Personality.NAUGHTY
+import com.example.androiddevchallenge.data.Personality.PATIENT
+import com.example.androiddevchallenge.data.Personality.SHY
+import com.example.androiddevchallenge.data.Personality.SMART
+import com.example.androiddevchallenge.data.Personality.STUBBORN
+import com.example.androiddevchallenge.data.Personality.STUPID
 
 class MainActivityViewModel: ViewModel() {
     val dogs: List<Dog> = listOf(
