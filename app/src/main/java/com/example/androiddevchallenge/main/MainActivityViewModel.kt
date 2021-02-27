@@ -32,7 +32,7 @@ import com.example.androiddevchallenge.data.Personality.SMART
 import com.example.androiddevchallenge.data.Personality.STUBBORN
 import com.example.androiddevchallenge.data.Personality.STUPID
 
-class MainActivityViewModel: ViewModel() {
+class MainActivityViewModel : ViewModel() {
     val dogs: List<Dog> = listOf(
         Dog(
             id = 0,
