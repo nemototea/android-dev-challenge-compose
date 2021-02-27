@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -19,20 +20,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.data.Dog
 import com.example.androiddevchallenge.data.Gender
 import com.example.androiddevchallenge.main.MainActivityViewModel
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.Neutral8
-import kotlin.math.max
-import kotlin.math.min
 
 @Composable
 fun DogDetail(
@@ -42,10 +37,10 @@ fun DogDetail(
 ) {
     val dog = viewModel.dogs.first { it.id == id }
     Box(Modifier.fillMaxSize()) {
+        Body(dog)
         Header()
         RoundedImage(dog.image)
         Up(upPress)
-        Body(dog)
     }
 }
 
@@ -104,7 +99,12 @@ private fun RoundedImage(
 
 @Composable
 private fun Body(dog: Dog) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState(0))
+    ) {
         Spacer(modifier = Modifier.size(360.dp))
         Row(
             modifier = Modifier
@@ -115,13 +115,13 @@ private fun Body(dog: Dog) {
             Text(
                 text = dog.name,
                 color = Color.Black,
-                fontSize = 36.sp
+                fontSize = 32.sp
             )
             Spacer(modifier = Modifier.size(24.dp))
             Text(
                 text = dog.age.toString() + " y.o.",
                 color = Color.Black,
-                fontSize = 36.sp
+                fontSize = 32.sp
             )
             Spacer(modifier = Modifier.size(24.dp))
             Icon(
@@ -131,6 +131,74 @@ private fun Body(dog: Dog) {
                 },
                 contentDescription = null,
                 modifier = Modifier.size(40.dp),
+            )
+        }
+        Spacer(modifier = Modifier.size(24.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "HOUSE・TRAINED",
+                color = Color.Black,
+                fontSize = 32.sp
+            )
+            Text(
+                text = when {
+                    dog.houseTrained -> "yes"
+                    else -> "no"
+                },
+                color = Color.DarkGray,
+                fontSize = 24.sp
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "ADOPTION FEE",
+                color = Color.Black,
+                fontSize = 32.sp
+            )
+            Text(
+                text = "$ " + dog.fee,
+                color = Color.DarkGray,
+                fontSize = 24.sp
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "HEALTH",
+                color = Color.Black,
+                fontSize = 32.sp
+            )
+            Text(
+                text = dog.health,
+                color = Color.DarkGray,
+                fontSize = 24.sp
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "PERSONALITIES",
+                color = Color.Black,
+                fontSize = 32.sp
+            )
+            Text(
+                text = dog.personalities.joinToString("/"),
+                color = Color.DarkGray,
+                fontSize = 24.sp
             )
         }
     }
