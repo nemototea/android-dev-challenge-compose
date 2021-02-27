@@ -46,14 +46,4 @@ enum class Personality {
     NAUGHTY,
     STUBBORN,
     ANXIOUS
-
-//    ＜ポジティブな性格＞
-//    affectionate（愛情深い）
-//    patient（我慢強い）
-//    curious（好奇心旺盛な）
-//    fearless（怖いもの知らず）
-//    ＜ネガティブな性格＞
-//    naughty（やんちゃな）
-//    stubborn（頑固な）
-//    anxious（臆病な）
 }
