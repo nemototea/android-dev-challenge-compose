@@ -16,44 +16,115 @@
 package com.example.androiddevchallenge.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = purple200,
-    primaryVariant = purple700,
-    secondary = teal200
+private val LightColorPalette = MyColors(
+    gradient2_1 = listOf(Shadow4, Shadow11),
+    uiBackground = Neutral0,
+    iconInteractive = Neutral0,
+    isDark = false
 )
 
-private val LightColorPalette = lightColors(
-    primary = purple500,
-    primaryVariant = purple700,
-    secondary = teal200
-
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+private val DarkColorPalette = MyColors(
+    gradient2_1 = listOf(Ocean3, Shadow3),
+    uiBackground = Neutral8,
+    iconInteractive = Neutral7,
+    isDark = true
 )
 
 @Composable
-fun MyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun MyTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
+) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
     }
 
-    MaterialTheme(
-        colors = colors,
-        typography = typography,
-        shapes = shapes,
-        content = content
-    )
+    ProvideMyColors(colors) {
+        MaterialTheme(
+            colors = debugColors(darkTheme),
+            typography = typography,
+            shapes = shapes,
+            content = content
+        )
+    }
 }
+
+object MyTheme {
+    val colors: MyColors
+            @Composable
+            get() = LocalMyColors.current
+}
+
+/**
+ * My custom Color Palette
+ */
+@Stable
+class MyColors(
+    gradient2_1: List<Color>,
+    interactivePrimary: List<Color> = gradient2_1,
+    uiBackground: Color,
+    iconInteractive: Color,
+    isDark: Boolean
+) {
+    var gradient2_1 by mutableStateOf(gradient2_1)
+        private set
+    var interactivePrimary by mutableStateOf(interactivePrimary)
+        private set
+    var uiBackground by mutableStateOf(uiBackground)
+        private set
+    var iconInteractive by mutableStateOf(iconInteractive)
+        private set
+    var isDark by mutableStateOf(isDark)
+        private set
+
+    fun update(other: MyColors) {
+        gradient2_1 = other.gradient2_1
+        interactivePrimary = other.interactivePrimary
+        uiBackground = other.uiBackground
+        iconInteractive = other.iconInteractive
+        isDark = other.isDark
+    }
+}
+
+
+@Composable
+fun ProvideMyColors(
+    colors: MyColors,
+    content: @Composable () -> Unit
+) {
+    val colorPalette = remember { colors }
+    colorPalette.update(colors)
+    CompositionLocalProvider(LocalMyColors provides colorPalette, content = content)
+}
+
+private val LocalMyColors = staticCompositionLocalOf<MyColors> {
+    error("No MyColorPalette provided")
+}
+
+fun debugColors(
+    darkTheme: Boolean,
+    debugColor: Color = Color.White
+) = Colors(
+    primary = debugColor,
+    primaryVariant = debugColor,
+    secondary = debugColor,
+    secondaryVariant = debugColor,
+    background = debugColor,
+    surface = debugColor,
+    error = debugColor,
+    onPrimary = debugColor,
+    onSecondary = debugColor,
+    onBackground = debugColor,
+    onSurface = debugColor,
+    onError = debugColor,
+    isLight = !darkTheme
+)

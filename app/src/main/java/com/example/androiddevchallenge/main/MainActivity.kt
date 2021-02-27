@@ -38,11 +38,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import com.example.androiddevchallenge.data.Gender
+import com.example.androiddevchallenge.detail.DogDetail
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -66,8 +64,10 @@ fun NavGraph(viewModel: MainActivityViewModel) {
             "detail/{id}",
             arguments = listOf(navArgument("id") { defaultValue = 0 })
         ) {
-            DetailScreen(
-                id = it.arguments?.getInt("id", 0) ?: throw Exception("Invalid value.")
+            DogDetail(
+                viewModel = viewModel,
+                id = it.arguments?.getInt("id", 0) ?: throw Exception("Invalid value."),
+                upPress = { navController.popBackStack() }
             )
         }
     }
@@ -89,7 +89,8 @@ fun MainScreen(viewModel: MainActivityViewModel, navController: NavHostControlle
                 ) {
                     Column(
                         Modifier.clickable {
-                            // FIXME:ナビゲーション処理を書くぞい！
+                            // Transition by using Navigation Compose.
+                            navController.navigate("detail/${dog.id}")
                         }
                     ) {
                         Image(
@@ -128,15 +129,9 @@ fun MainScreen(viewModel: MainActivityViewModel, navController: NavHostControlle
                                 modifier = Modifier.size(40.dp)
                             )
                         }
-
                     }
                 }
             }
         }
     }
-}
-
-@Composable
-fun DetailScreen(id: Int) {
-
 }
