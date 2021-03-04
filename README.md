@@ -1,4 +1,4 @@
-# Put title of your app here
+# Dog Adoption App 
 
 <!--- You can find both of these in the url bar when you open your repository in github. -->
 ![Workflow result](https://github.com/nemototea/android-dev-challenge-compose/workflows/Check/badge.svg)
